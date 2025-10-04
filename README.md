@@ -4,8 +4,8 @@ A powerful, user-friendly Python application for downloading manga from MangaDex
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tests](https://github.com/thorryuk/mangadex-manga-scrapper/workflows/Tests/badge.svg)](https://github.com/thorryuk/mangadex-manga-scrapper/actions)
-[![Quick Tests](https://github.com/thorryuk/mangadex-manga-scrapper/workflows/Quick%20Tests/badge.svg)](https://github.com/thorryuk/mangadex-manga-scrapper/actions)
+[![Tests](https://github.com/thorryuk/mangadex-manga-scrapper/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/thorryuk/mangadex-manga-scrapper/actions/workflows/test.yml)
+[![Quick Tests](https://github.com/thorryuk/mangadex-manga-scrapper/actions/workflows/quick-test.yml/badge.svg?branch=master)](https://github.com/thorryuk/mangadex-manga-scrapper/actions/workflows/quick-test.yml)
 
 ## ✨ Key Features
 
