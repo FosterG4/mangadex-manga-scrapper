@@ -8,7 +8,7 @@ A powerful, user-friendly Python application for downloading manga from MangaDex
 ## ✨ Key Features
 
 ### 🚀 Automatic & Smart
-- **Auto-Update Folders** - Renames "ja" → proper manga titles automatically
+- **Auto-Update Folders** - Renames "somename" → proper manga titles automatically
 - **Auto-Update Volumes** - Reorganizes chapters when MangaDex changes volumes
 - **Auto-Resume** - Skips already downloaded images
 - **Auto-Cleanup** - Removes empty folders automatically
