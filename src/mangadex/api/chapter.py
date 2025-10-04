@@ -4,7 +4,8 @@ Chapter API module.
 This module provides methods for interacting with chapter endpoints.
 """
 
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
+
 from ..http_client import HTTPClient
 from ..models import Chapter
 

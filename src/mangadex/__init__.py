@@ -9,11 +9,11 @@ __author__ = "MangaDex Scrapper Team"
 
 from .client import MangaDexClient
 from .exceptions import (
-    MangaDexException,
     APIException,
     AuthenticationException,
-    RateLimitException,
+    MangaDexException,
     NotFoundException,
+    RateLimitException,
 )
 
 __all__ = [

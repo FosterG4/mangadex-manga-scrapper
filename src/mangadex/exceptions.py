@@ -4,7 +4,7 @@ Custom exceptions for MangaDex API client.
 This module defines all custom exceptions used throughout the library.
 """
 
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 
 
 class MangaDexException(Exception):

@@ -5,7 +5,8 @@ This module provides functions to format manga and chapter information.
 """
 
 from typing import List
-from src.mangadex.models import Manga, Chapter
+
+from src.mangadex.models import Chapter, Manga
 
 
 def format_manga_info(manga: Manga, verbose: bool = False) -> str:

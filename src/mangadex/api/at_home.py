@@ -4,7 +4,8 @@ AtHome API module.
 This module provides methods for getting chapter image URLs from MangaDex@Home.
 """
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
 from ..http_client import HTTPClient
 
 

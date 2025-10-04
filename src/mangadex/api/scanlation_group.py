@@ -4,7 +4,8 @@ Scanlation Group API module.
 This module provides methods for interacting with scanlation group endpoints.
 """
 
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
+
 from ..http_client import HTTPClient
 from ..models import ScanlationGroup
 

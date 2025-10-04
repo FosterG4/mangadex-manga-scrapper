@@ -5,13 +5,14 @@ This module provides an interactive CLI for searching and downloading manga.
 """
 
 from typing import Optional
-from colorama import init, Fore, Style
+
+from colorama import Fore, Style, init
 
 from config import Settings
 from src.mangadex import MangaDexClient
 from src.mangadex.downloader import DownloadManager
 from src.mangadex.exceptions import MangaDexException
-from src.utils import setup_logger, format_manga_info, format_manga_list
+from src.utils import format_manga_info, format_manga_list, setup_logger
 
 # Initialize colorama
 init(autoreset=True)

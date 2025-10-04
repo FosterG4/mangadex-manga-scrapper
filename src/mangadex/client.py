@@ -8,15 +8,16 @@ import logging
 from typing import Optional
 
 from config import Settings
-from .http_client import HTTPClient
+
 from .api import (
-    MangaAPI,
-    ChapterAPI,
-    AuthorAPI,
-    CoverAPI,
-    ScanlationGroupAPI,
     AtHomeAPI,
+    AuthorAPI,
+    ChapterAPI,
+    CoverAPI,
+    MangaAPI,
+    ScanlationGroupAPI,
 )
+from .http_client import HTTPClient
 
 logger = logging.getLogger(__name__)
 

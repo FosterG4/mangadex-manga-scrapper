@@ -7,14 +7,15 @@ filtering, and multi-language support.
 
 import logging
 import time
-from pathlib import Path
-from typing import List, Optional, Dict, Any, Callable
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional
 
 import requests
 from tqdm import tqdm
 
 from config import Settings
+
 from .client import MangaDexClient
 from .exceptions import DownloadException
 

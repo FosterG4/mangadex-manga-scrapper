@@ -5,9 +5,9 @@ This module provides a robust HTTP client with retry logic, rate limiting,
 and error handling.
 """
 
-import time
 import logging
-from typing import Optional, Dict, Any, Union
+import time
+from typing import Any, Dict, Optional, Union
 from urllib.parse import urljoin
 
 import requests
@@ -15,16 +15,17 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from config import Settings
+
 from .exceptions import (
     APIException,
     AuthenticationException,
     AuthorizationException,
+    NetworkException,
     NotFoundException,
     RateLimitException,
-    ValidationException,
     ServerException,
-    NetworkException,
     TimeoutException,
+    ValidationException,
 )
 
 logger = logging.getLogger(__name__)
