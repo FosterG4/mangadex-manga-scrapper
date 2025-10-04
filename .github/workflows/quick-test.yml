@@ -1,0 +1,73 @@
+name: Quick Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  quick-test:
+    name: Quick Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run fast unit tests only
+      run: |
+        python -m unittest discover tests/unit -v
+      timeout-minutes: 2
+    
+    - name: API ping test
+      run: |
+        python -c "
+        from src.mangadex import MangaDexClient
+        client = MangaDexClient()
+        result = client.ping()
+        client.close()
+        assert result, 'API ping failed'
+        print('✓ API is reachable')
+        "
+      timeout-minutes: 1
+    
+    - name: Import validation
+      run: |
+        python -c "
+        from src.mangadex import MangaDexClient
+        from src.mangadex.downloader import DownloadManager
+        from config import Settings
+        print('✓ All critical imports work')
+        "
+    
+    - name: Configuration validation
+      run: |
+        python -c "
+        from config import Settings
+        Settings.validate()
+        print('✓ Configuration is valid')
+        print(f'  Rate limit: {Settings.RATE_LIMIT_DELAY}s')
+        print(f'  Max workers: {Settings.MAX_CONCURRENT_DOWNLOADS}')
+        "
+    
+    - name: Check for .env in commits
+      run: |
+        if git ls-files | grep -q "^\.env$"; then
+          echo "❌ ERROR: .env file should not be committed!"
+          exit 1
+        else
+          echo "✓ No .env file in commits"
+        fi

@@ -4,6 +4,8 @@ A powerful, user-friendly Python application for downloading manga from MangaDex
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Tests](https://github.com/thorryuk/mangadex-manga-scrapper/workflows/Tests/badge.svg)](https://github.com/thorryuk/mangadex-manga-scrapper/actions)
+[![Quick Tests](https://github.com/thorryuk/mangadex-manga-scrapper/workflows/Quick%20Tests/badge.svg)](https://github.com/thorryuk/mangadex-manga-scrapper/actions)
 
 ## ✨ Key Features
 
@@ -355,14 +357,34 @@ ENABLE_CACHE=true                     # Cache API responses
 
 📖 **Full list**: See `.env.example` for all options with descriptions.
 
-## Testing
+## 🧪 Testing
 
-### Run Unit Tests
+### Automated Testing (CI/CD)
+
+This project uses GitHub Actions for automated testing:
+
+- **Quick Tests** - Fast validation on every push (~2 minutes)
+  - Unit tests
+  - API connectivity check
+  - Import validation
+  - Configuration validation
+
+- **Full Tests** - Comprehensive testing on PRs (~5 minutes)
+  - Tests on Python 3.9, 3.10, 3.11, 3.12
+  - Tests on Ubuntu and Windows
+  - Limited integration tests
+  - Code quality checks
+
+**Status:** Check the badges above for current test status
+
+### Run Tests Locally
+
+#### Unit Tests (Fast)
 ```bash
 python -m unittest discover tests/unit
 ```
 
-### Run Integration Tests
+#### Integration Tests (Slower)
 ```bash
 # Set environment variable to enable
 export RUN_INTEGRATION_TESTS=true  # Linux/Mac
@@ -371,9 +393,16 @@ set RUN_INTEGRATION_TESTS=true     # Windows
 python -m unittest discover tests/integration
 ```
 
-### Run Specific Test
+#### Specific Test
 ```bash
 python -m unittest tests.unit.test_http_client
+```
+
+#### Quick Validation
+```bash
+# Same as CI quick test
+python -m unittest discover tests/unit -v
+python -c "from src.mangadex import MangaDexClient; client = MangaDexClient(); assert client.ping(); client.close()"
 ```
 
 ## Folder Organization

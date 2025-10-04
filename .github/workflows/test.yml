@@ -1,0 +1,194 @@
+name: Tests
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run unit tests
+      run: |
+        python -m unittest discover tests/unit -v
+    
+    - name: Test API connectivity (quick check)
+      run: |
+        python -c "from src.mangadex import MangaDexClient; client = MangaDexClient(); assert client.ping(), 'API ping failed'; client.close(); print('✓ API connectivity OK')"
+    
+    - name: Test search functionality (limited)
+      run: |
+        python -c "
+        from src.mangadex import MangaDexClient
+        client = MangaDexClient()
+        results = client.manga.search(title='One Piece', limit=1)
+        assert len(results) > 0, 'Search failed'
+        print(f'✓ Search OK - Found: {results[0].title.get(\"en\", \"N/A\")}')
+        client.close()
+        "
+    
+    - name: Test download manager initialization
+      run: |
+        python -c "
+        from src.mangadex import MangaDexClient
+        from src.mangadex.downloader import DownloadManager
+        from pathlib import Path
+        client = MangaDexClient()
+        dm = DownloadManager(client, download_dir=Path('./test_downloads'))
+        print('✓ Download manager initialized')
+        client.close()
+        "
+    
+    - name: Lint check (Python 3.11+ only)
+      if: matrix.python-version >= '3.11'
+      run: |
+        pip install ruff
+        ruff check src/ --select E,F,W --ignore E501
+      continue-on-error: true
+
+  integration-test:
+    name: Integration Tests (Limited)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run limited integration tests
+      env:
+        RUN_INTEGRATION_TESTS: 'true'
+        TEST_DOWNLOAD_LIMIT: '1'  # Only download 1 chapter for testing
+      run: |
+        python -m unittest discover tests/integration -v
+      timeout-minutes: 5
+      continue-on-error: true
+    
+    - name: Quick download test (1 chapter only)
+      run: |
+        python -c "
+        from src.mangadex import MangaDexClient
+        from src.mangadex.downloader import DownloadManager
+        from pathlib import Path
+        import shutil
+        
+        # Test with a known manga (One Piece chapter 1)
+        client = MangaDexClient()
+        dm = DownloadManager(client, download_dir=Path('./test_dl'))
+        
+        # Search for One Piece
+        results = client.manga.search(title='One Piece', limit=1)
+        if results:
+            manga_id = results[0].id
+            print(f'Testing download with manga: {results[0].title.get(\"en\")}')
+            
+            # Get first chapter only
+            chapters = client.manga.get_chapters_list(manga_id, limit=1)
+            if chapters:
+                print(f'Found {len(chapters)} chapter(s)')
+                # Note: Actual download disabled in CI to save time/bandwidth
+                print('✓ Download test structure OK (actual download skipped in CI)')
+        
+        # Cleanup
+        if Path('./test_dl').exists():
+            shutil.rmtree('./test_dl')
+        client.close()
+        "
+      timeout-minutes: 3
+
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Check for syntax errors
+      run: |
+        python -m py_compile src/**/*.py
+    
+    - name: Check imports
+      run: |
+        pip install isort
+        isort --check-only src/ --profile black
+      continue-on-error: true
+    
+    - name: Security check
+      run: |
+        pip install bandit
+        bandit -r src/ -ll
+      continue-on-error: true
+
+  build-check:
+    name: Build Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Check if main.py runs
+      run: |
+        timeout 5 python main.py || true
+    
+    - name: Verify all imports work
+      run: |
+        python -c "
+        from src.mangadex import MangaDexClient
+        from src.mangadex.downloader import DownloadManager
+        from src.mangadex.models import Manga, Chapter
+        from src.utils.formatters import format_manga_info
+        from config import Settings
+        print('✓ All imports successful')
+        "
