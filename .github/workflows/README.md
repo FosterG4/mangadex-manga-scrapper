@@ -63,7 +63,7 @@ To keep CI/CD fast and avoid rate limiting:
 
 ### API Call Limits
 - Search: `limit=1` (only 1 result)
-- Chapters: `limit=1` (only 1 chapter)
+- Chapters: Gets full list but only uses first chapter for testing
 - Downloads: Skipped in CI (structure test only)
 
 ### Timeouts

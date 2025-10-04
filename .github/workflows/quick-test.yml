@@ -34,40 +34,22 @@ jobs:
     
     - name: API ping test
       run: |
-        python -c "
-        from src.mangadex import MangaDexClient
-        client = MangaDexClient()
-        result = client.ping()
-        client.close()
-        assert result, 'API ping failed'
-        print('✓ API is reachable')
-        "
+        python -c "from src.mangadex import MangaDexClient; client = MangaDexClient(); result = client.ping(); client.close(); assert result, 'API ping failed'; print('[OK] API is reachable')"
       timeout-minutes: 1
     
     - name: Import validation
       run: |
-        python -c "
-        from src.mangadex import MangaDexClient
-        from src.mangadex.downloader import DownloadManager
-        from config import Settings
-        print('✓ All critical imports work')
-        "
+        python -c "from src.mangadex import MangaDexClient; from src.mangadex.downloader import DownloadManager; from config import Settings; print('[OK] All critical imports work')"
     
     - name: Configuration validation
       run: |
-        python -c "
-        from config import Settings
-        Settings.validate()
-        print('✓ Configuration is valid')
-        print(f'  Rate limit: {Settings.RATE_LIMIT_DELAY}s')
-        print(f'  Max workers: {Settings.MAX_CONCURRENT_DOWNLOADS}')
-        "
+        python -c "from config import Settings; Settings.validate(); print('[OK] Configuration is valid'); print('  Rate limit: {}s'.format(Settings.RATE_LIMIT_DELAY)); print('  Max workers: {}'.format(Settings.MAX_CONCURRENT_DOWNLOADS))"
     
     - name: Check for .env in commits
       run: |
         if git ls-files | grep -q "^\.env$"; then
-          echo "❌ ERROR: .env file should not be committed!"
+          echo "[ERROR] .env file should not be committed!"
           exit 1
         else
-          echo "✓ No .env file in commits"
+          echo "[OK] No .env file in commits"
         fi
