@@ -54,7 +54,7 @@ class HTTPClient:
             Configured requests session
         """
         session = requests.Session()
-        
+
         # Configure retry strategy
         retry_strategy = Retry(
             total=Settings.MAX_RETRIES,
@@ -62,17 +62,17 @@ class HTTPClient:
             status_forcelist=[429, 500, 502, 503, 504],
             allowed_methods=["HEAD", "GET", "OPTIONS", "POST", "PUT", "DELETE"],
         )
-        
+
         adapter = HTTPAdapter(max_retries=retry_strategy)
         session.mount("http://", adapter)
         session.mount("https://", adapter)
-        
+
         # Set default headers
         session.headers.update({
             "User-Agent": Settings.USER_AGENT,
             "Content-Type": "application/json",
         })
-        
+
         return session
 
     def _apply_rate_limit(self) -> None:
@@ -93,13 +93,13 @@ class HTTPClient:
             Complete headers dictionary
         """
         headers = {}
-        
+
         if self.access_token:
             headers["Authorization"] = f"Bearer {self.access_token}"
-        
+
         if additional_headers:
             headers.update(additional_headers)
-        
+
         return headers
 
     def _handle_response(self, response: requests.Response) -> Dict[str, Any]:
@@ -122,7 +122,7 @@ class HTTPClient:
 
         if response.status_code == 200:
             return data
-        
+
         # Extract error message
         error_message = "Unknown error"
         if isinstance(data, dict):
@@ -130,7 +130,7 @@ class HTTPClient:
                 error_message = data["errors"][0].get("detail", error_message)
             elif "message" in data:
                 error_message = data["message"]
-        
+
         # Raise appropriate exception based on status code
         if response.status_code == 400:
             raise ValidationException(error_message, response.status_code, data)
@@ -190,7 +190,7 @@ class HTTPClient:
 
         try:
             logger.debug(f"{method} {url} - Params: {params}")
-            
+
             response = self.session.request(
                 method=method,
                 url=url,
@@ -200,9 +200,9 @@ class HTTPClient:
                 headers=request_headers,
                 timeout=timeout,
             )
-            
+
             return self._handle_response(response)
-        
+
         except requests.Timeout as e:
             raise TimeoutException(f"Request timed out after {timeout}s: {str(e)}")
         except requests.ConnectionError as e:

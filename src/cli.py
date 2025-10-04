@@ -62,13 +62,13 @@ class CLI:
             print(f"{Fore.YELLOW}{'─' * 60}\n")
 
             title = input(f"{Fore.CYAN}Enter manga title to search: {Style.RESET_ALL}").strip()
-            
+
             if not title:
                 self.print_error("Title cannot be empty")
                 return None
 
             self.print_info(f"Searching for '{title}'...")
-            
+
             manga_list = self.client.manga.search(
                 title=title,
                 limit=20,
@@ -91,7 +91,7 @@ class CLI:
                 if idx == 0:
                     self.print_info("Search cancelled")
                     return None
-                
+
                 if 1 <= idx <= len(manga_list):
                     selected_manga = manga_list[idx - 1]
                     print(f"\n{Fore.GREEN}Selected manga:")
@@ -100,7 +100,7 @@ class CLI:
                 else:
                     self.print_error("Invalid selection")
                     return None
-            
+
             except ValueError:
                 self.print_error("Invalid input. Please enter a number")
                 return None
@@ -135,7 +135,7 @@ class CLI:
         lang_input = input(
             f"{Fore.CYAN}Enter language codes (comma-separated, default: {Settings.DEFAULT_LANGUAGE}): {Style.RESET_ALL}"
         ).strip()
-        
+
         if lang_input:
             options["languages"] = [lang.strip() for lang in lang_input.split(",")]
         else:
@@ -145,7 +145,7 @@ class CLI:
         volume_input = input(
             f"{Fore.CYAN}Enter volume numbers to download (comma-separated, or press Enter for all): {Style.RESET_ALL}"
         ).strip()
-        
+
         if volume_input:
             options["volume_filter"] = [vol.strip() for vol in volume_input.split(",")]
 
@@ -153,7 +153,7 @@ class CLI:
         chapter_input = input(
             f"{Fore.CYAN}Enter chapter numbers to download (comma-separated, or press Enter for all): {Style.RESET_ALL}"
         ).strip()
-        
+
         if chapter_input:
             options["chapter_filter"] = [ch.strip() for ch in chapter_input.split(",")]
 
@@ -162,13 +162,13 @@ class CLI:
             range_input = input(
                 f"{Fore.CYAN}Download chapter range? (e.g., '1-10', or press Enter to skip): {Style.RESET_ALL}"
             ).strip()
-            
+
             if range_input and "-" in range_input:
                 try:
                     start, end = range_input.split("-")
                     start_ch = float(start.strip())
                     end_ch = float(end.strip())
-                    
+
                     # Generate chapter list
                     options["chapter_range"] = (start_ch, end_ch)
                 except ValueError:
@@ -178,7 +178,7 @@ class CLI:
         data_saver_input = input(
             f"{Fore.CYAN}Use data saver mode (lower quality, smaller size)? (y/N): {Style.RESET_ALL}"
         ).strip().lower()
-        
+
         options["data_saver"] = data_saver_input == "y"
 
         return options
@@ -203,7 +203,7 @@ class CLI:
             if "chapter_range" in options:
                 start_ch, end_ch = options["chapter_range"]
                 self.print_info(f"Downloading chapters {start_ch} to {end_ch}")
-                
+
                 stats = self.downloader.download_chapter_range(
                     manga_id=manga_id,
                     start_chapter=start_ch,
@@ -227,7 +227,7 @@ class CLI:
 
             print(f"{Fore.WHITE}Manga: {stats['manga_title']}")
             print(f"{Fore.GREEN}Downloaded: {stats['downloaded']}/{stats['total_chapters']} chapters")
-            
+
             if stats.get("failed", 0) > 0:
                 print(f"{Fore.RED}Failed: {stats['failed']} chapters")
 
@@ -269,7 +269,7 @@ class CLI:
                         confirm = input(
                             f"\n{Fore.CYAN}Proceed with download? (Y/n): {Style.RESET_ALL}"
                         ).strip().lower()
-                        
+
                         if confirm != "n":
                             self.download_manga(manga_id)
 
@@ -277,7 +277,7 @@ class CLI:
                     manga_id = input(
                         f"\n{Fore.CYAN}Enter manga ID: {Style.RESET_ALL}"
                     ).strip()
-                    
+
                     if manga_id:
                         self.download_manga(manga_id)
 

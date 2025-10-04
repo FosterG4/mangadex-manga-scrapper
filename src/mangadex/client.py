@@ -38,7 +38,7 @@ class MangaDexClient:
         """
         self.base_url = base_url or Settings.BASE_URL
         self.http_client = HTTPClient(self.base_url, access_token)
-        
+
         # Initialize API modules
         self.manga = MangaAPI(self.http_client)
         self.chapter = ChapterAPI(self.http_client)
@@ -46,7 +46,7 @@ class MangaDexClient:
         self.cover = CoverAPI(self.http_client)
         self.scanlation_group = ScanlationGroupAPI(self.http_client)
         self.at_home = AtHomeAPI(self.http_client)
-        
+
         logger.info(f"MangaDex client initialized with base URL: {self.base_url}")
 
     def ping(self) -> bool:

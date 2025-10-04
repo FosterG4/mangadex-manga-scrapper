@@ -58,20 +58,20 @@ class Manga:
     def from_dict(cls, data: Dict[str, Any]) -> "Manga":
         """Create Manga from API response dictionary."""
         attributes = data.get("attributes", {})
-        
+
         # Parse title
         title_dict = attributes.get("title", {})
         title = LocalizedString(values=title_dict)
-        
+
         # Parse alt titles
         alt_titles = []
         for alt_title in attributes.get("altTitles", []):
             alt_titles.append(LocalizedString(values=alt_title))
-        
+
         # Parse description
         description_dict = attributes.get("description", {})
         description = LocalizedString(values=description_dict)
-        
+
         # Parse relationships
         relationships = []
         for rel in data.get("relationships", []):
@@ -80,7 +80,7 @@ class Manga:
                 type=rel["type"],
                 attributes=rel.get("attributes"),
             ))
-        
+
         return cls(
             id=data["id"],
             title=title,
@@ -126,7 +126,7 @@ class Chapter:
     def from_dict(cls, data: Dict[str, Any]) -> "Chapter":
         """Create Chapter from API response dictionary."""
         attributes = data.get("attributes", {})
-        
+
         # Parse relationships
         relationships = []
         for rel in data.get("relationships", []):
@@ -135,7 +135,7 @@ class Chapter:
                 type=rel["type"],
                 attributes=rel.get("attributes"),
             ))
-        
+
         return cls(
             id=data["id"],
             title=attributes.get("title"),
@@ -182,10 +182,10 @@ class Author:
     def from_dict(cls, data: Dict[str, Any]) -> "Author":
         """Create Author from API response dictionary."""
         attributes = data.get("attributes", {})
-        
+
         biography_dict = attributes.get("biography", {})
         biography = LocalizedString(values=biography_dict)
-        
+
         return cls(
             id=data["id"],
             name=attributes.get("name", ""),
@@ -227,7 +227,7 @@ class Cover:
     def from_dict(cls, data: Dict[str, Any]) -> "Cover":
         """Create Cover from API response dictionary."""
         attributes = data.get("attributes", {})
-        
+
         # Parse relationships
         relationships = []
         for rel in data.get("relationships", []):
@@ -236,7 +236,7 @@ class Cover:
                 type=rel["type"],
                 attributes=rel.get("attributes"),
             ))
-        
+
         return cls(
             id=data["id"],
             volume=attributes.get("volume"),
@@ -278,12 +278,12 @@ class ScanlationGroup:
     def from_dict(cls, data: Dict[str, Any]) -> "ScanlationGroup":
         """Create ScanlationGroup from API response dictionary."""
         attributes = data.get("attributes", {})
-        
+
         # Parse alt names
         alt_names = []
         for alt_name in attributes.get("altNames", []):
             alt_names.append(LocalizedString(values=alt_name))
-        
+
         return cls(
             id=data["id"],
             name=attributes.get("name", ""),

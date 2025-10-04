@@ -65,11 +65,11 @@ class DownloadManager:
     def _auto_update_structure(self, manga_id: str, manga_title: str, languages: List[str]):
         """
         Automatically update folder structure if it exists.
-        
+
         This checks for:
         1. Old folder names (language codes) and renames them
         2. Volume assignment changes and reorganizes chapters
-        
+
         Args:
             manga_id: Manga UUID
             manga_title: Current manga title from API
@@ -77,17 +77,17 @@ class DownloadManager:
         """
         safe_title = self._sanitize_filename(manga_title)
         manga_dir = self.download_dir / safe_title
-        
+
         # Check if manga folder exists
         if not manga_dir.exists():
             # Check for old folder names (language codes or short names)
             for existing_dir in self.download_dir.iterdir():
                 if not existing_dir.is_dir():
                     continue
-                
+
                 # Check if this might be the same manga with old name
                 old_name = existing_dir.name.lower()
-                
+
                 # Common language codes or very short names
                 if len(old_name) <= 3 or old_name in ["ja", "en", "es", "fr", "de", "ko", "zh", "pt", "pt-br"]:
                     # Check if it has chapters (likely a manga folder)
@@ -96,24 +96,24 @@ class DownloadManager:
                         for d in existing_dir.iterdir()
                         if d.is_dir()
                     )
-                    
+
                     if has_chapters:
                         logger.info(f"Found old folder '{existing_dir.name}', renaming to '{safe_title}'")
                         try:
                             existing_dir.rename(manga_dir)
-                            logger.info(f"✓ Renamed folder to proper title")
+                            logger.info("✓ Renamed folder to proper title")
                             break
                         except Exception as e:
                             logger.warning(f"Could not rename folder: {e}")
-        
+
         # If manga folder exists, check for volume updates
         if manga_dir.exists():
             self._update_volume_structure(manga_dir, manga_id, languages[0] if languages else "en")
-    
+
     def _update_volume_structure(self, manga_dir: Path, manga_id: str, language: str):
         """
         Update volume structure based on current API data.
-        
+
         Args:
             manga_dir: Manga directory path
             manga_id: Manga UUID
@@ -122,13 +122,13 @@ class DownloadManager:
         try:
             # Get current local structure
             local_structure = {}
-            
+
             # Scan chapters in root
             for item in manga_dir.iterdir():
                 if item.is_dir() and item.name.startswith("Ch."):
                     chapter_num = item.name.replace("Ch.", "")
                     local_structure[chapter_num] = {"volume": None, "path": item}
-            
+
             # Scan chapters in volume folders
             for vol_dir in manga_dir.iterdir():
                 if vol_dir.is_dir() and vol_dir.name.startswith("Vol."):
@@ -137,27 +137,27 @@ class DownloadManager:
                         if chapter_dir.is_dir() and chapter_dir.name.startswith("Ch."):
                             chapter_num = chapter_dir.name.replace("Ch.", "")
                             local_structure[chapter_num] = {"volume": vol_num, "path": chapter_dir}
-            
+
             if not local_structure:
                 return  # No chapters to update
-            
+
             # Get current API structure
             chapters_data = self.client.manga.get_chapters_list(
                 manga_id,
                 translated_language=[language]
             )
-            
+
             api_structure = {}
             for chapter in chapters_data:
                 chapter_num = chapter.get("chapter")
                 volume = chapter.get("volume")
-                
+
                 # Normalize volume
                 if volume and volume.lower() not in ["none", "null", ""]:
                     api_structure[chapter_num] = volume
                 else:
                     api_structure[chapter_num] = None
-            
+
             # Find changes
             changes = []
             for chapter_num, api_vol in api_structure.items():
@@ -170,52 +170,52 @@ class DownloadManager:
                             "to_vol": api_vol,
                             "path": local_structure[chapter_num]["path"]
                         })
-            
+
             if not changes:
                 return  # No updates needed
-            
+
             # Apply changes
             logger.info(f"Detected {len(changes)} volume assignment changes, updating structure...")
-            
+
             for change in changes:
                 chapter_num = change["chapter"]
                 from_vol = change["from_vol"]
                 to_vol = change["to_vol"]
                 old_path = change["path"]
-                
+
                 # Determine new path
                 if to_vol:
                     new_path = manga_dir / f"Vol.{to_vol}" / f"Ch.{chapter_num}"
                 else:
                     new_path = manga_dir / f"Ch.{chapter_num}"
-                
+
                 try:
                     # Create parent directory if needed
                     new_path.parent.mkdir(parents=True, exist_ok=True)
-                    
+
                     # Move chapter folder
                     if not new_path.exists():
                         import shutil
                         shutil.move(str(old_path), str(new_path))
-                        
+
                         from_str = f"Vol.{from_vol}" if from_vol else "root"
                         to_str = f"Vol.{to_vol}" if to_vol else "root"
                         logger.info(f"  ✓ Moved Ch.{chapter_num}: {from_str} → {to_str}")
-                        
+
                         # Clean up empty volume folder
                         if from_vol:
                             old_vol_dir = manga_dir / f"Vol.{from_vol}"
                             if old_vol_dir.exists() and not any(old_vol_dir.iterdir()):
                                 old_vol_dir.rmdir()
-                
+
                 except Exception as e:
                     logger.warning(f"Could not move Ch.{chapter_num}: {e}")
-            
-            logger.info(f"✓ Structure updated successfully")
-        
+
+            logger.info("✓ Structure updated successfully")
+
         except Exception as e:
             logger.warning(f"Could not update volume structure: {e}")
-    
+
     def _get_chapter_dir(self, manga_title: str, volume: Optional[str], chapter: str) -> Path:
         """
         Get directory path for chapter.
@@ -229,14 +229,14 @@ class DownloadManager:
             Path to chapter directory
         """
         safe_title = self._sanitize_filename(manga_title)
-        
+
         # Only create volume folder if volume is specified and not "none"
         if volume and volume.lower() not in ["none", "null", ""]:
             chapter_dir = self.download_dir / safe_title / f"Vol.{volume}" / f"Ch.{chapter}"
         else:
             # No volume or volume is "none" - put chapters directly under manga folder
             chapter_dir = self.download_dir / safe_title / f"Ch.{chapter}"
-        
+
         return chapter_dir
 
     def _download_image(
@@ -263,13 +263,13 @@ class DownloadManager:
                 headers={"User-Agent": Settings.USER_AGENT},
             )
             response.raise_for_status()
-            
+
             file_path.parent.mkdir(parents=True, exist_ok=True)
             with open(file_path, "wb") as f:
                 f.write(response.content)
-            
+
             return True
-        
+
         except Exception as e:
             if retry_count < Settings.MAX_RETRIES:
                 logger.warning(f"Retry {retry_count + 1}/{Settings.MAX_RETRIES} for {file_path.name}: {e}")
@@ -314,7 +314,7 @@ class DownloadManager:
 
             # Get image URLs
             image_urls = self.client.at_home.get_image_urls(chapter_id, data_saver)
-            
+
             if not image_urls:
                 raise DownloadException(f"No images found for chapter {chapter_id}")
 
@@ -330,12 +330,12 @@ class DownloadManager:
 
             # Download images
             logger.info(f"Downloading chapter {chapter_number} ({len(image_urls)} images)")
-            
+
             download_tasks = []
             for idx, url in enumerate(image_urls, 1):
                 ext = url.split(".")[-1]
                 file_path = chapter_dir / f"{idx:03d}.{ext}"
-                
+
                 if not file_path.exists():
                     download_tasks.append((url, file_path))
 
@@ -350,14 +350,14 @@ class DownloadManager:
                     executor.submit(self._download_image, url, path): (url, path)
                     for url, path in download_tasks
                 }
-                
+
                 with tqdm(total=len(download_tasks), desc=f"Ch.{chapter_number}", unit="img") as pbar:
                     for future in as_completed(futures):
                         success = future.result()
                         if success:
                             success_count += 1
                         pbar.update(1)
-                        
+
                         if progress_callback:
                             progress_callback(success_count, len(download_tasks))
 
@@ -400,7 +400,7 @@ class DownloadManager:
         try:
             # Get manga info
             manga = self.client.manga.get(manga_id, includes=["cover_art"])
-            
+
             # Get best available title (prefer English, then Japanese, then romanized, then any)
             manga_title = manga.title.get("en")
             if not manga_title:
@@ -411,9 +411,9 @@ class DownloadManager:
                 manga_title = list(manga.title.values.values())[0]
             if not manga_title:
                 manga_title = f"Manga_{manga_id[:8]}"
-            
+
             logger.info(f"Downloading manga: {manga_title}")
-            
+
             # Auto-update existing folder structure if enabled
             if self.auto_update_structure:
                 self._auto_update_structure(manga_id, manga_title, languages or [Settings.DEFAULT_LANGUAGE])
@@ -434,7 +434,7 @@ class DownloadManager:
                     ch for ch in chapters_data
                     if ch.get("volume") in volume_filter
                 ]
-            
+
             if chapter_filter:
                 chapters_data = [
                     ch for ch in chapters_data
@@ -465,11 +465,11 @@ class DownloadManager:
                         data_saver=data_saver,
                     )
                     stats["downloaded"] += 1
-                    
+
                     # Rate limiting between chapters (extra delay to avoid hitting limits)
                     # MangaDex allows ~5 req/s, but we add extra delay between chapters
                     time.sleep(Settings.RATE_LIMIT_DELAY * 2)
-                
+
                 except Exception as e:
                     logger.error(f"Failed to download chapter {chapter_data.get('chapter')}: {e}")
                     stats["failed"] += 1
@@ -477,7 +477,7 @@ class DownloadManager:
             logger.info(
                 f"Download complete: {stats['downloaded']}/{stats['total_chapters']} chapters"
             )
-            
+
             return stats
 
         except Exception as e:
@@ -505,7 +505,7 @@ class DownloadManager:
             Dictionary with download statistics
         """
         language = language or Settings.DEFAULT_LANGUAGE
-        
+
         # Get all chapters
         chapters_data = self.client.manga.get_chapters_list(
             manga_id,
@@ -524,7 +524,7 @@ class DownloadManager:
 
         # Get manga info
         manga = self.client.manga.get(manga_id)
-        
+
         # Get best available title (prefer English, then Japanese, then romanized, then any)
         manga_title = manga.title.get("en")
         if not manga_title:
@@ -555,7 +555,7 @@ class DownloadManager:
                 )
                 stats["downloaded"] += 1
                 time.sleep(Settings.RATE_LIMIT_DELAY)
-            
+
             except Exception as e:
                 logger.error(f"Failed to download chapter {chapter_data.get('chapter')}: {e}")
                 stats["failed"] += 1

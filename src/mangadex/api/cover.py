@@ -100,7 +100,7 @@ class CoverAPI:
             Cover image URL
         """
         from config import Settings
-        
+
         if size == "original":
             return f"{Settings.UPLOADS_URL}/covers/{manga_id}/{file_name}"
         else:

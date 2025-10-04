@@ -53,7 +53,7 @@ class AtHomeAPI:
         base_url = server_data.get("baseUrl", "")
         chapter_data = server_data.get("chapter", {})
         chapter_hash = chapter_data.get("hash", "")
-        
+
         if data_saver:
             images = chapter_data.get("dataSaver", [])
             quality = "data-saver"
