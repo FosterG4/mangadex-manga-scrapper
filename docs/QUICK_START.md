@@ -1,6 +1,8 @@
 # Quick Start Guide
 
-Get started with MangaDex Manga Downloader in 5 minutes!
+Get started with the Mangadx Manga Scrapper in 5 minutes!
+
+This guide will help you quickly set up and start downloading manga from MangaDx using the Mangadx scrapper tool.
 
 ## Installation
 

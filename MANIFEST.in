@@ -1,0 +1,35 @@
+# Include the README and license files
+include README.md
+include LICENSE
+include CHANGELOG.md
+
+# Include configuration files
+include .env.example
+include requirements.txt
+include pyproject.toml
+
+# Include documentation
+recursive-include docs *.md *.rst *.txt
+
+# Include type information
+include mangadx_scrapper/py.typed
+
+# Exclude development and build files
+exclude .gitignore
+exclude .pre-commit-config.yaml
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * *.pyo
+recursive-exclude * *.pyd
+recursive-exclude * .DS_Store
+recursive-exclude * .pytest_cache
+recursive-exclude * .mypy_cache
+recursive-exclude * .coverage
+recursive-exclude * htmlcov
+recursive-exclude * .tox
+recursive-exclude * .venv
+recursive-exclude * venv
+recursive-exclude * env
+recursive-exclude * build
+recursive-exclude * dist
+recursive-exclude * *.egg-info

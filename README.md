@@ -1,6 +1,8 @@
-# MangaDx Manga Downloader
+# Mangadx Manga Scrapper
 
-A powerful, user-friendly Python application for downloading manga from MangaDx with automatic updates, smart organization, and multi-language support.
+A powerful, user-friendly Python package for downloading manga from MangaDx (https://mangadx.org) with automatic updates, smart organization, and multi-language support. Available as both a pip-installable package and a standalone application.
+
+> **Note**: This project name is "Mangadx" (the scrapper tool), while "MangaDx" refers to the website and API service.
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -58,67 +60,72 @@ A powerful, user-friendly Python application for downloading manga from MangaDx 
 The project follows a modular architecture for maintainability and scalability:
 
 ```
-mangadx-manga-scrapper/
-├── config/                 # Configuration management
-│   ├── settings.py        # Environment-based settings
-│   └── __init__.py
-├── src/
-│   ├── mangadx/          # Core API client library
-│   │   ├── api/           # API endpoint modules
-│   │   │   ├── manga.py
-│   │   │   ├── chapter.py
-│   │   │   ├── author.py
-│   │   │   ├── cover.py
-│   │   │   ├── scanlation_group.py
-│   │   │   └── at_home.py
-│   │   ├── client.py      # Main client
-│   │   ├── http_client.py # HTTP layer with retry logic
-│   │   ├── models.py      # Data models
-│   │   ├── exceptions.py  # Custom exceptions
-│   │   └── downloader.py  # Download manager
-│   ├── utils/             # Utility modules
-│   │   ├── logger.py      # Logging setup
-│   │   └── formatters.py  # Display formatters
-│   └── cli.py             # Interactive CLI
+mangadex-manga-scrapper/
+├── mangadx_scrapper/       # Main package
+│   ├── __init__.py        # Package initialization
+│   ├── client.py          # Main API client
+│   ├── downloader.py      # Download manager
+│   ├── exceptions.py      # Custom exceptions
+│   ├── http_client.py     # HTTP layer with retry logic
+│   ├── models.py          # Data models
+│   ├── api/               # API endpoint modules
+│   │   ├── __init__.py
+│   │   ├── manga.py       # Manga API
+│   │   ├── chapter.py     # Chapter API
+│   │   ├── author.py      # Author API
+│   │   ├── cover.py       # Cover API
+│   │   ├── scanlation_group.py  # Scanlation Group API
+│   │   └── at_home.py     # AtHome API
+│   ├── cli/               # Command-line interface
+│   │   ├── __init__.py
+│   │   ├── main.py        # Interactive CLI
+│   │   ├── search.py      # Search command
+│   │   └── download.py    # Download command
+│   └── utils/             # Utility modules
+│       ├── __init__.py
+│       ├── logger.py      # Logging setup
+│       └── formatters.py  # Display formatters
+├── config/                # Configuration management
+│   ├── __init__.py
+│   └── settings.py        # Environment-based settings
 ├── tests/                 # Test suite
 │   ├── unit/              # Unit tests
 │   └── integration/       # Integration tests
 ├── docs/                  # Documentation
 │   └── API_REFERENCE.md   # API reference guide
 ├── downloads/             # Default download directory
-├── main.py                # Application entry point
+├── main.py                # Legacy entry point
+├── setup.py               # Package setup
+├── pyproject.toml         # Modern package configuration
 ├── requirements.txt       # Python dependencies
 ├── .env.example           # Environment variables template
 └── README.md              # This file
 ```
 
-## 🚀 Quick Start (3 Steps!)
-
-```bash
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Copy environment file (optional - has safe defaults)
-cp .env.example .env
-
-# 3. Run the downloader!
-python main.py
-```
-
-That's it! The application will guide you through the rest.
-
 ## 📦 Installation
 
-### Prerequisites
-- **Python 3.9+** - [Download here](https://www.python.org/downloads/)
-- **pip** - Comes with Python
+### Option 1: Pip Installation (Recommended)
 
-### Detailed Setup
+Install the package directly from source:
+
+```bash
+# Install the package
+pip install git+https://github.com/thorryuk/mangadex-manga-scrapper.git
+
+# Or install in development mode (if you cloned the repo)
+git clone https://github.com/thorryuk/mangadex-manga-scrapper.git
+cd mangadex-manga-scrapper
+pip install -e .
+```
+
+**That's it!** The package is now installed with CLI commands available globally.
+
+### Option 2: Manual Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/thorryuk/mangadx-manga-scrapper.git
-   cd mangadx-manga-scrapper
+   git clone https://github.com/thorryuk/mangadex-manga-scrapper.git
+   cd mangadex-manga-scrapper
    ```
 
 2. **Install dependencies**
@@ -140,19 +147,48 @@ That's it! The application will guide you through the rest.
    python main.py
    ```
 
-## 💡 Usage
+### Prerequisites
+- **Python 3.9+** - [Download here](https://www.python.org/downloads/)
+- **pip** - Comes with Python
 
-### Interactive Mode (Easiest!)
+## 🚀 Quick Start
+
+### Using CLI Commands (After pip install)
 
 ```bash
+# Interactive mode - easiest way to get started
+mangadx-scrapper
+
+# Search for manga
+mangadx-search "One Piece" --limit 10 --verbose
+
+# Download manga by ID
+mangadx-download abc123-def456-ghi789 --language en ja --volumes 1 2 3
+```
+
+### Using Python Script (Manual installation)
+
+```bash
+# Interactive mode
 python main.py
+
+# Or use the library programmatically
+python -c "from mangadx_scrapper import MangaDxClient; print('Ready!')"
+```
+
+## 💡 Usage
+
+### CLI Commands (Pip Installation)
+
+#### Interactive Mode
+```bash
+mangadx-scrapper
 ```
 
 **What you'll see:**
-
 ```
 ============================================================
-  MangaDx Manga Downloader v1.0
+  MangaDx Manga Scrapper v1.0
 ============================================================
 
 MAIN MENU
@@ -161,6 +197,61 @@ MAIN MENU
 3. Exit
 
 Enter your choice: _
+```
+
+#### Search Command
+```bash
+# Basic search
+mangadx-search "One Piece"
+
+# Advanced search with filters
+mangadx-search "Attack on Titan" --limit 10 --verbose --status completed --demographic shounen
+
+# Search with content rating filters
+mangadx-search "Romance Manga" --content-rating safe suggestive --year 2020
+
+# JSON output for scripting
+mangadx-search "Naruto" --json > results.json
+```
+
+#### Download Command
+```bash
+# Download all chapters in English
+mangadx-download abc123-def456-ghi789
+
+# Download specific languages
+mangadx-download abc123-def456-ghi789 --language en ja es
+
+# Download specific volumes
+mangadx-download abc123-def456-ghi789 --volumes 1 2 3
+
+# Download specific chapters
+mangadx-download abc123-def456-ghi789 --chapters 1 2.5 3
+
+# Download chapter range
+mangadx-download abc123-def456-ghi789 --range 1-10
+
+# Data saver mode (lower quality, faster)
+mangadx-download abc123-def456-ghi789 --data-saver
+
+# Custom output directory
+mangadx-download abc123-def456-ghi789 --output ./my-manga
+
+# Quiet mode (minimal output)
+mangadx-download abc123-def456-ghi789 --quiet
+```
+
+#### Get Help
+```bash
+mangadx-scrapper --version
+mangadx-search --help
+mangadx-download --help
+```
+
+### Interactive Mode (Manual Installation)
+
+```bash
+python main.py
 ```
 
 **Choose option 1** and follow the prompts:
@@ -210,8 +301,8 @@ python main.py
 Use the library in your own Python scripts:
 
 ```python
-from src.mangadx import MangaDxClient
-from src.mangadx.downloader import DownloadManager
+from mangadx_scrapper import MangaDxClient
+from mangadx_scrapper.downloader import DownloadManager
 
 # Initialize client
 client = MangaDxClient()
@@ -242,6 +333,30 @@ stats = downloader.download_manga(
 print(f"Downloaded: {stats['downloaded']}/{stats['total_chapters']} chapters")
 
 # Close client
+client.close()
+```
+
+### Quick API Examples
+
+```python
+# Simple search and download
+from mangadx_scrapper import MangaDxClient
+
+client = MangaDxClient()
+
+# Search for manga
+results = client.manga.search("One Piece", limit=5)
+for manga in results:
+    print(f"{manga.title.get('en')} - {manga.status}")
+
+# Get specific manga
+manga = client.manga.get("manga-uuid-here")
+print(f"Description: {manga.description.get('en')}")
+
+# Get chapters for a manga
+chapters = client.chapter.list(manga=manga.id, translated_language=["en"])
+print(f"Found {len(chapters)} chapters")
+
 client.close()
 ```
 
@@ -444,7 +559,7 @@ See [docs/API_REFERENCE.md](docs/API_REFERENCE.md) for detailed API documentatio
 The library provides comprehensive exception handling:
 
 ```python
-from src.mangadx.exceptions import (
+from mangadx_scrapper.exceptions import (
     MangaDxException,
     NotFoundException,
     RateLimitException,
@@ -466,11 +581,12 @@ except MangaDxException as e:
 ### Core Modules
 
 - **config/settings.py**: Centralized configuration management
-- **src/mangadx/client.py**: Main API client with all endpoints
-- **src/mangadx/http_client.py**: HTTP layer with retry and rate limiting
-- **src/mangadx/models.py**: Data models for API responses
-- **src/mangadx/downloader.py**: Download manager with progress tracking
-- **src/mangadx/exceptions.py**: Custom exception hierarchy
+- **mangadx_scrapper/client.py**: Main API client with all endpoints
+- **mangadx_scrapper/http_client.py**: HTTP layer with retry and rate limiting
+- **mangadx_scrapper/models.py**: Data models for API responses
+- **mangadx_scrapper/downloader.py**: Download manager with progress tracking
+- **mangadx_scrapper/exceptions.py**: Custom exception hierarchy
+- **mangadx_scrapper/cli/**: Command-line interface modules
 
 ### API Modules
 
@@ -481,6 +597,16 @@ Each API module provides methods for specific resources:
 - **cover.py**: Cover art management
 - **scanlation_group.py**: Scanlation group data
 - **at_home.py**: Image URL retrieval
+
+### CLI Commands
+
+The package provides three main CLI commands:
+
+- **mangadx-scrapper**: Interactive mode with menu-driven interface
+- **mangadx-search**: Search for manga with advanced filtering options
+- **mangadx-download**: Download manga chapters with flexible options
+
+All commands support `--help` for detailed usage information and examples.
 
 ## Best Practices
 
@@ -635,13 +761,18 @@ For issues and questions:
 ## Changelog
 
 ### Version 1.0.0
-- Initial release
-- Full MangaDx API v5 implementation
-- Interactive CLI interface
-- Modular architecture
-- Comprehensive error handling
-- Multi-language support
-- Advanced filtering options
-- Concurrent downloads
-- Unit and integration tests
+- **Package Structure**: Professional pip-installable Python package
+- **CLI Commands**: Three dedicated CLI commands (`mangadx-scrapper`, `mangadx-search`, `mangadx-download`)
+- **API Coverage**: Full MangaDx API v5 implementation with all endpoints
+- **Interactive Interface**: User-friendly menu-driven CLI
+- **Modular Architecture**: Clean separation of concerns with proper package structure
+- **Error Handling**: Comprehensive exception handling with custom exception hierarchy
+- **Multi-language Support**: Download manga in multiple languages
+- **Advanced Filtering**: Search and filter by tags, status, year, demographic, content rating
+- **Concurrent Downloads**: Fast parallel downloading with configurable limits
+- **Smart Organization**: Automatic folder structure with proper manga titles
+- **Rate Limiting**: Built-in respect for MangaDx API limits
+- **Testing**: Unit and integration test suites
+- **Documentation**: Comprehensive API reference and usage examples
+- **Type Hints**: Full type annotation support throughout the codebase
 

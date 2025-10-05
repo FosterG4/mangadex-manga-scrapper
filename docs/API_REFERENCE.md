@@ -1,6 +1,10 @@
 # API Reference
 
-This document provides detailed information about the MangaDx API client library.
+This document provides detailed information about the Mangadx API client library for interacting with the MangaDx API.
+
+## Overview
+
+The Mangadx library provides a comprehensive Python interface for the MangaDx API (https://api.mangadex.org). This library follows the official MangaDx API specifications and includes proper rate limiting, error handling, and data validation.
 
 ## Table of Contents
 
@@ -14,26 +18,41 @@ This document provides detailed information about the MangaDx API client library
 - [Download Manager](#download-manager)
 - [Models](#models)
 - [Exceptions](#exceptions)
+- [Rate Limiting](#rate-limiting)
+- [Authentication](#authentication)
 
 ## Client Initialization
 
 ```python
 from src.mangadx import MangaDxClient
 
-# Basic initialization
+# Basic initialization (uses default API URL: https://api.mangadex.org)
 client = MangaDxClient()
 
-# With custom base URL
-client = MangaDexClient(base_url="https://api.mangadex.org")
+# With custom configuration
+client = MangaDxClient(
+    base_url="https://api.mangadex.org",
+    uploads_url="https://uploads.mangadex.org"
+)
 
-# With authentication
+# With authentication (for protected endpoints)
 client = MangaDxClient(access_token="your_token_here")
 
-# Using context manager (recommended)
+# Using context manager (recommended for resource management)
 with MangaDxClient() as client:
     # Your code here
-    pass
+    manga = client.manga.get("manga-uuid-here")
+    print(f"Title: {manga.title}")
 ```
+
+### Configuration Options
+
+- `base_url`: MangaDx API base URL (default: `https://api.mangadex.org`)
+- `uploads_url`: MangaDx uploads CDN URL (default: `https://uploads.mangadex.org`)
+- `access_token`: Authentication token for protected endpoints
+- `rate_limit_delay`: Delay between requests in seconds (default: 0.2 for 5 req/sec)
+- `max_retries`: Maximum number of retry attempts (default: 3)
+- `timeout`: Request timeout in seconds (default: 30)
 
 ## Manga API
 

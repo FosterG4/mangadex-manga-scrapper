@@ -130,3 +130,4 @@ manga_metadata.json
 *.cbz
 *.cbr
 api.yaml
+.trae/rules/project_rules.md

@@ -6,7 +6,7 @@ This module provides functions to format manga and chapter information.
 
 from typing import List
 
-from src.mangadx.models import Chapter, Manga
+from ..models import Chapter, Manga
 
 
 def format_manga_info(manga: Manga, verbose: bool = False) -> str:
@@ -14,11 +14,11 @@ def format_manga_info(manga: Manga, verbose: bool = False) -> str:
     Format manga information for display.
 
     Args:
-        manga: Manga object
-        verbose: Include detailed information
+        manga: Manga object to format
+        verbose: Include detailed information if True
 
     Returns:
-        Formatted string
+        Formatted string representation of the manga
     """
     # Get primary title (English or first available)
     title_en = manga.title.get("en")
@@ -131,10 +131,10 @@ def format_chapter_info(chapter: Chapter) -> str:
     Format chapter information for display.
 
     Args:
-        chapter: Chapter object
+        chapter: Chapter object to format
 
     Returns:
-        Formatted string
+        Formatted string representation of the chapter
     """
     parts = []
 
@@ -163,10 +163,10 @@ def format_manga_list(manga_list: List[Manga]) -> str:
     Format a list of manga for display.
 
     Args:
-        manga_list: List of Manga objects
+        manga_list: List of Manga objects to format
 
     Returns:
-        Formatted string
+        Formatted string representation of the manga list
     """
     if not manga_list:
         return "No manga found."
@@ -199,21 +199,27 @@ def format_manga_list(manga_list: List[Manga]) -> str:
         # Show title with language indicator if not English
         title_lang = None
         if not manga.title.get("en"):
-            # Find which language we're displaying
-            for lang, t in manga.title.values.items():
-                if t == title:
+            # Determine the language of the displayed title
+            for lang, lang_title in manga.title.values.items():
+                if lang_title == title:
                     title_lang = lang
                     break
 
-        # Format title display
-        if alt_en_title:
-            title_display = f"{title} / {alt_en_title}"
-        elif title_lang:
-            title_display = f"{title} [{title_lang}]"
-        else:
-            title_display = title
+        # Format the line
+        line = f"{idx:2d}. {title}"
 
-        lines.append(f"{idx}. {title_display} ({year}) - {status}")
-        lines.append(f"   ID: {manga.id}")
+        if title_lang and title_lang != "en":
+            line += f" [{title_lang}]"
+
+        if alt_en_title:
+            line += f" (EN: {alt_en_title})"
+
+        line += f" | {status} | {year}"
+
+        # Add content rating if available
+        if manga.content_rating:
+            line += f" | {manga.content_rating}"
+
+        lines.append(line)
 
     return "\n".join(lines)

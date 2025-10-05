@@ -1,10 +1,10 @@
-# MangaDex API Rate Limits
+# MangaDx API Rate Limits
 
-This document explains the rate limits enforced by MangaDex API and how this application handles them.
+This document explains the rate limits enforced by MangaDx API and how the Mangadx scrapper application handles them.
 
 ## Official Rate Limits
 
-According to [MangaDex API Documentation](https://api.mangadex.org/docs/2-limitations/):
+According to [MangaDx API Documentation](https://api.mangadex.org/docs/2-limitations/):
 
 ### Global Rate Limit
 - **~5 requests per second per IP address**
