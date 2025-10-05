@@ -1,6 +1,6 @@
 # Mangadx Manga Scrapper
 
-A powerful, user-friendly Python package for downloading manga from MangaDx (https://mangadx.org) with automatic updates, smart organization, and multi-language support. Available as both a pip-installable package and a standalone application.
+A powerful, user-friendly Python package for downloading manga from MangaDx (https://mangadex.org) with automatic updates, smart organization, and multi-language support. Available as both a pip-installable package and a standalone application.
 
 > **Note**: This project name is "Mangadx" (the scrapper tool), while "MangaDx" refers to the website and API service.
 
@@ -664,7 +664,7 @@ All commands support `--help` for detailed usage information and examples.
 
 **Solutions:**
 - ✅ Check internet connection
-- ✅ Verify MangaDx is online: https://mangadx.org
+- ✅ Verify MangaDx is online: https://mangadex.org
 - ✅ Try again in a few minutes
 - ✅ Check firewall/antivirus settings
 
@@ -733,7 +733,7 @@ See [LICENSE](LICENSE) file for full details.
 This software uses the MangaDx API and must comply with their terms:
 
 **Required:**
-- ✅ Credit MangaDx (https://mangadx.org)
+- ✅ Credit MangaDx (https://mangadex.org)
 - ✅ Credit scanlation groups
 - ✅ Respect rate limits (~5 req/s)
 
