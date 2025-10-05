@@ -1,5 +1,5 @@
 """
-Configuration settings for MangaDex API client.
+Configuration settings for MangaDx API client.
 
 This module loads and manages all configuration from environment variables.
 """
@@ -33,14 +33,14 @@ class Settings:
     CHUNK_SIZE: int = int(os.getenv("CHUNK_SIZE", "8192"))
     
     # Rate Limiting
-    # MangaDex API allows ~5 requests/second. Default 0.25s = 4 req/s to stay safe
+    # MangaDx API allows ~5 requests/second. Default 0.25s = 4 req/s to stay safe
     RATE_LIMIT_DELAY: float = float(os.getenv("RATE_LIMIT_DELAY", "0.25"))
     MAX_RETRIES: int = int(os.getenv("MAX_RETRIES", "3"))
     RETRY_DELAY: float = float(os.getenv("RETRY_DELAY", "2.0"))
     
     # Request Configuration
     REQUEST_TIMEOUT: int = int(os.getenv("REQUEST_TIMEOUT", "30"))
-    USER_AGENT: str = os.getenv("USER_AGENT", "MangaDexDownloader/1.0")
+    USER_AGENT: str = os.getenv("USER_AGENT", "MangaDxDownloader/1.0")
     
     # Default Filters
     DEFAULT_LANGUAGE: str = os.getenv("DEFAULT_LANGUAGE", "en")

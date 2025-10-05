@@ -1,5 +1,5 @@
 """
-Data models for MangaDex API responses.
+Data models for MangaDx API responses.
 
 This module defines data classes for API responses.
 """

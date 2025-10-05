@@ -1,6 +1,6 @@
-# MangaDex Manga Downloader
+# MangaDx Manga Downloader
 
-A powerful, user-friendly Python application for downloading manga from MangaDex with automatic updates, smart organization, and multi-language support.
+A powerful, user-friendly Python application for downloading manga from MangaDx with automatic updates, smart organization, and multi-language support.
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -11,7 +11,7 @@ A powerful, user-friendly Python application for downloading manga from MangaDex
 
 ### 🚀 Automatic & Smart
 - **Auto-Update Folders** - Renames "somename" → proper manga titles automatically
-- **Auto-Update Volumes** - Reorganizes chapters when MangaDex changes volumes
+- **Auto-Update Volumes** - Reorganizes chapters when MangaDx changes volumes
 - **Auto-Resume** - Skips already downloaded images
 - **Auto-Cleanup** - Removes empty folders automatically
 - **Just run the downloader again!** No separate commands needed
@@ -39,7 +39,7 @@ A powerful, user-friendly Python application for downloading manga from MangaDex
 - **Filter by Rating** - Safe, Suggestive, Erotica
 
 ### 🛡️ Reliable & Safe
-- **Rate Limiting** - Respects MangaDex's ~5 req/s limit (default: 4 req/s)
+- **Rate Limiting** - Respects MangaDx's ~5 req/s limit (default: 4 req/s)
 - **Auto-Retry** - Automatic retry with exponential backoff
 - **Error Handling** - Comprehensive exception handling
 - **Detailed Logging** - Track progress and debug issues
@@ -51,19 +51,19 @@ A powerful, user-friendly Python application for downloading manga from MangaDex
 - **Author API** - Search authors and artists
 - **Cover API** - Get cover art in multiple sizes
 - **Scanlation Group API** - Group information
-- **AtHome API** - Chapter images from MangaDex@Home network
+- **AtHome API** - Chapter images from MangaDx@Home network
 
 ## Architecture
 
 The project follows a modular architecture for maintainability and scalability:
 
 ```
-mangadex-manga-scrapper/
+mangadx-manga-scrapper/
 ├── config/                 # Configuration management
 │   ├── settings.py        # Environment-based settings
 │   └── __init__.py
 ├── src/
-│   ├── mangadex/          # Core API client library
+│   ├── mangadx/          # Core API client library
 │   │   ├── api/           # API endpoint modules
 │   │   │   ├── manga.py
 │   │   │   ├── chapter.py
@@ -117,8 +117,8 @@ That's it! The application will guide you through the rest.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/thorryuk/mangadex-manga-scrapper.git
-   cd mangadex-manga-scrapper
+   git clone https://github.com/thorryuk/mangadx-manga-scrapper.git
+   cd mangadx-manga-scrapper
    ```
 
 2. **Install dependencies**
@@ -152,7 +152,7 @@ python main.py
 
 ```
 ============================================================
-  MangaDex Manga Downloader v1.0
+  MangaDx Manga Downloader v1.0
 ============================================================
 
 MAIN MENU
@@ -196,7 +196,7 @@ python main.py
 
 #### Download by Manga ID
 
-If you have the manga ID from MangaDex URL:
+If you have the manga ID from MangaDx URL:
 
 ```bash
 python main.py
@@ -210,11 +210,11 @@ python main.py
 Use the library in your own Python scripts:
 
 ```python
-from src.mangadex import MangaDexClient
-from src.mangadex.downloader import DownloadManager
+from src.mangadx import MangaDxClient
+from src.mangadx.downloader import DownloadManager
 
 # Initialize client
-client = MangaDexClient()
+client = MangaDxClient()
 
 # Search for manga
 manga_list = client.manga.search(
@@ -317,7 +317,7 @@ MAX_RETRIES=3                         # Retry attempts on failure
 RETRY_DELAY=2.0                       # Delay between retries
 ```
 
-**⚠️ Warning**: MangaDex allows ~5 requests/second. Don't set `RATE_LIMIT_DELAY` below 0.2!
+**⚠️ Warning**: MangaDx allows ~5 requests/second. Don't set `RATE_LIMIT_DELAY` below 0.2!
 
 **Consequences of exceeding limit:**
 - 🚫 HTTP 429 responses
@@ -402,7 +402,7 @@ python -m unittest tests.unit.test_http_client
 ```bash
 # Same as CI quick test
 python -m unittest discover tests/unit -v
-python -c "from src.mangadex import MangaDexClient; client = MangaDexClient(); assert client.ping(); client.close()"
+python -c "from src.mangadx import MangaDxClient; client = MangaDxClient(); assert client.ping(); client.close()"
 ```
 
 ## Folder Organization
@@ -416,7 +416,7 @@ Downloads are organized as:
 **Just run the downloader again!** The application automatically:
 
 1. **Renames old folders** - "ja" → "Silent Witch - Chinmoku no Majo no Kakushigoto"
-2. **Updates volume assignments** - Moves chapters if MangaDex changed volumes
+2. **Updates volume assignments** - Moves chapters if MangaDx changed volumes
 3. **Cleans up empty folders** - Removes old Vol.none or empty volume folders
 
 **No separate commands needed!** Simply download the manga again:
@@ -444,8 +444,8 @@ See [docs/API_REFERENCE.md](docs/API_REFERENCE.md) for detailed API documentatio
 The library provides comprehensive exception handling:
 
 ```python
-from src.mangadex.exceptions import (
-    MangaDexException,
+from src.mangadx.exceptions import (
+    MangaDxException,
     NotFoundException,
     RateLimitException,
     AuthenticationException
@@ -457,7 +457,7 @@ except NotFoundException:
     print("Manga not found")
 except RateLimitException as e:
     print(f"Rate limited. Retry after {e.retry_after}s")
-except MangaDexException as e:
+except MangaDxException as e:
     print(f"API error: {e.message}")
 ```
 
@@ -466,11 +466,11 @@ except MangaDexException as e:
 ### Core Modules
 
 - **config/settings.py**: Centralized configuration management
-- **src/mangadex/client.py**: Main API client with all endpoints
-- **src/mangadex/http_client.py**: HTTP layer with retry and rate limiting
-- **src/mangadex/models.py**: Data models for API responses
-- **src/mangadex/downloader.py**: Download manager with progress tracking
-- **src/mangadex/exceptions.py**: Custom exception hierarchy
+- **src/mangadx/client.py**: Main API client with all endpoints
+- **src/mangadx/http_client.py**: HTTP layer with retry and rate limiting
+- **src/mangadx/models.py**: Data models for API responses
+- **src/mangadx/downloader.py**: Download manager with progress tracking
+- **src/mangadx/exceptions.py**: Custom exception hierarchy
 
 ### API Modules
 
@@ -526,7 +526,7 @@ Each API module provides methods for specific resources:
 
 #### ❌ Volume assignments changed
 
-**Problem**: MangaDex moved chapters to different volumes
+**Problem**: MangaDx moved chapters to different volumes
 
 **Solutions:**
 - ✅ Run the downloader again (auto-updates)
@@ -534,11 +534,11 @@ Each API module provides methods for specific resources:
 
 #### ❌ "Connection failed" or "Timeout"
 
-**Problem**: Can't connect to MangaDex
+**Problem**: Can't connect to MangaDx
 
 **Solutions:**
 - ✅ Check internet connection
-- ✅ Verify MangaDex is online: https://mangadex.org
+- ✅ Verify MangaDx is online: https://mangadx.org
 - ✅ Try again in a few minutes
 - ✅ Check firewall/antivirus settings
 
@@ -602,12 +602,12 @@ Contributions are welcome! Please:
 
 See [LICENSE](LICENSE) file for full details.
 
-### MangaDex API Usage Terms
+### MangaDx API Usage Terms
 
-This software uses the MangaDex API and must comply with their terms:
+This software uses the MangaDx API and must comply with their terms:
 
 **Required:**
-- ✅ Credit MangaDex (https://mangadex.org)
+- ✅ Credit MangaDx (https://mangadx.org)
 - ✅ Credit scanlation groups
 - ✅ Respect rate limits (~5 req/s)
 
@@ -621,7 +621,7 @@ This software uses the MangaDex API and must comply with their terms:
 
 ## Acknowledgments
 
-- **MangaDex** for providing the API
+- **MangaDx** for providing the API
 - **Scanlation groups** for their hard work
 - All contributors to this project
 
@@ -630,13 +630,13 @@ This software uses the MangaDex API and must comply with their terms:
 For issues and questions:
 - Open an issue on GitHub
 - Check [API_REFERENCE.md](docs/API_REFERENCE.md)
-- Review MangaDex API documentation
+- Review MangaDx API documentation
 
 ## Changelog
 
 ### Version 1.0.0
 - Initial release
-- Full MangaDex API v5 implementation
+- Full MangaDx API v5 implementation
 - Interactive CLI interface
 - Modular architecture
 - Comprehensive error handling

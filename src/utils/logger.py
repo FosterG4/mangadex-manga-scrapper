@@ -13,7 +13,7 @@ from config import Settings
 
 
 def setup_logger(
-    name: str = "mangadex",
+    name: str = "mangadx",
     level: Optional[str] = None,
     log_file: Optional[str] = None,
 ) -> logging.Logger:

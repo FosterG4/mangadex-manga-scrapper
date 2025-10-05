@@ -1,1 +1,1 @@
-"""Test suite for MangaDex manga downloader."""
+"""Test suite for MangaDx manga downloader."""

@@ -1,23 +1,23 @@
 """
 Integration tests for API client.
 
-These tests make real API calls to MangaDex.
+These tests make real API calls to MangaDx.
 Run with caution to avoid rate limiting.
 """
 
 import unittest
 import os
-from src.mangadex import MangaDexClient
-from src.mangadex.exceptions import MangaDexException
+from src.mangadx import MangaDxClient
+from src.mangadx.exceptions import MangaDxException
 
 
-class TestMangaDexAPI(unittest.TestCase):
-    """Integration tests for MangaDex API."""
+class TestMangaDxAPI(unittest.TestCase):
+    """Integration tests for MangaDx API."""
 
     @classmethod
     def setUpClass(cls):
         """Set up test client."""
-        cls.client = MangaDexClient()
+        cls.client = MangaDxClient()
 
     @classmethod
     def tearDownClass(cls):

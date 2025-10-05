@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 from config import Settings
 
-from .client import MangaDexClient
+from .client import MangaDxClient
 from .exceptions import DownloadException
 
 logger = logging.getLogger(__name__)
@@ -27,7 +27,7 @@ class DownloadManager:
 
     def __init__(
         self,
-        client: MangaDexClient,
+        client: MangaDxClient,
         download_dir: Optional[Path] = None,
         max_workers: Optional[int] = None,
         auto_update_structure: bool = True,
@@ -36,7 +36,7 @@ class DownloadManager:
         Initialize download manager.
 
         Args:
-            client: MangaDex client instance
+            client: MangaDx client instance
             download_dir: Directory for downloads (defaults to Settings.DOWNLOAD_DIR)
             max_workers: Max concurrent downloads (defaults to Settings.MAX_CONCURRENT_DOWNLOADS)
             auto_update_structure: Automatically update folder structure if changed (default: True)
@@ -468,7 +468,7 @@ class DownloadManager:
                     stats["downloaded"] += 1
 
                     # Rate limiting between chapters (extra delay to avoid hitting limits)
-                    # MangaDex allows ~5 req/s, but we add extra delay between chapters
+                    # MangaDx allows ~5 req/s, but we add extra delay between chapters
                     time.sleep(Settings.RATE_LIMIT_DELAY * 2)
 
                 except Exception as e:

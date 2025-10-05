@@ -6,7 +6,7 @@ This module provides functions to format manga and chapter information.
 
 from typing import List
 
-from src.mangadex.models import Chapter, Manga
+from src.mangadx.models import Chapter, Manga
 
 
 def format_manga_info(manga: Manga, verbose: bool = False) -> str:
@@ -115,7 +115,7 @@ def format_manga_info(manga: Manga, verbose: bool = False) -> str:
             cover_file = cover_art.attributes.get("fileName")
             if cover_file:
                 lines.append(f"\nCover Art: {cover_file}")
-                lines.append(f"Cover URL: https://uploads.mangadex.org/covers/{manga.id}/{cover_file}")
+                lines.append(f"Cover URL: https://uploads.mangadx.org/covers/{manga.id}/{cover_file}")
 
         # Additional metadata
         if manga.created_at:

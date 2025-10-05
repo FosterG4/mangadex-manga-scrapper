@@ -1,7 +1,7 @@
 """
 Automatic volume structure updater.
 
-This script checks if MangaDex has updated volume assignments for downloaded manga
+This script checks if MangaDx has updated volume assignments for downloaded manga
 and reorganizes folders accordingly.
 """
 
@@ -13,7 +13,7 @@ from typing import Dict, List, Optional
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from src.mangadex import MangaDexClient
+from src.mangadx import MangaDxClient
 from config import Settings
 from colorama import init, Fore
 
@@ -28,7 +28,7 @@ def sanitize_filename(filename: str) -> str:
     return filename.strip()
 
 
-def get_manga_title(client: MangaDexClient, manga_id: str) -> str:
+def get_manga_title(client: MangaDxClient, manga_id: str) -> str:
     """Get proper manga title from API."""
     try:
         manga = client.manga.get(manga_id)
@@ -82,9 +82,9 @@ def get_current_structure(manga_dir: Path) -> Dict[str, Dict[str, Path]]:
     return structure
 
 
-def get_api_structure(client: MangaDexClient, manga_id: str, language: str = "en") -> Dict[str, Optional[str]]:
+def get_api_structure(client: MangaDxClient, manga_id: str, language: str = "en") -> Dict[str, Optional[str]]:
     """
-    Get current volume structure from MangaDex API.
+    Get current volume structure from MangaDx API.
     
     Returns:
         Dict mapping chapter numbers to volume numbers
@@ -198,7 +198,7 @@ def apply_changes(manga_dir: Path, changes: List[Dict], dry_run: bool = False) -
     return moved_count
 
 
-def update_manga_volumes(manga_dir: Path, manga_id: str, client: MangaDexClient, language: str = "en", dry_run: bool = False):
+def update_manga_volumes(manga_dir: Path, manga_id: str, client: MangaDxClient, language: str = "en", dry_run: bool = False):
     """Update volume structure for a single manga."""
     manga_name = manga_dir.name
     
@@ -212,14 +212,14 @@ def update_manga_volumes(manga_dir: Path, manga_id: str, client: MangaDexClient,
     print(f"{Fore.WHITE}Found {len(current_structure)} chapters locally")
     
     # Get API structure
-    print(f"{Fore.WHITE}Fetching structure from MangaDex API...")
+    print(f"{Fore.WHITE}Fetching structure from MangaDx API...")
     api_structure = get_api_structure(client, manga_id, language)
     
     if not api_structure:
         print(f"{Fore.RED}✗ Could not fetch API structure")
         return
     
-    print(f"{Fore.WHITE}Found {len(api_structure)} chapters on MangaDex")
+    print(f"{Fore.WHITE}Found {len(api_structure)} chapters on MangaDx")
     
     # Compare structures
     changes = compare_structures(current_structure, api_structure)
@@ -249,10 +249,10 @@ def update_manga_volumes(manga_dir: Path, manga_id: str, client: MangaDexClient,
         print(f"\n{Fore.GREEN}✓ Updated {moved} chapters")
 
 
-def scan_and_update(download_dir: Path, client: MangaDexClient, language: str = "en", dry_run: bool = False):
+def scan_and_update(download_dir: Path, client: MangaDxClient, language: str = "en", dry_run: bool = False):
     """Scan all manga and update volumes."""
     print(f"\n{Fore.CYAN}{'=' * 60}")
-    print(f"{Fore.CYAN}  MangaDex Volume Structure Updater")
+    print(f"{Fore.CYAN}  MangaDx Volume Structure Updater")
     print(f"{Fore.CYAN}{'=' * 60}")
     
     if dry_run:
@@ -284,7 +284,7 @@ def scan_and_update(download_dir: Path, client: MangaDexClient, language: str = 
             print(f"{Fore.RED}✗ Error: {e}")
 
 
-def update_specific_manga(manga_id: str, download_dir: Path, client: MangaDexClient, language: str = "en", dry_run: bool = False):
+def update_specific_manga(manga_id: str, download_dir: Path, client: MangaDxClient, language: str = "en", dry_run: bool = False):
     """Update volumes for a specific manga by ID."""
     print(f"\n{Fore.CYAN}{'=' * 60}")
     print(f"{Fore.CYAN}  Updating Manga: {manga_id}")
@@ -313,7 +313,7 @@ def main():
     """Main function."""
     import argparse
     
-    parser = argparse.ArgumentParser(description="Update manga volume structure from MangaDex")
+    parser = argparse.ArgumentParser(description="Update manga volume structure from MangaDx")
     parser.add_argument("--manga-id", help="Specific manga ID to update")
     parser.add_argument("--language", default="en", help="Language code (default: en)")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
@@ -327,7 +327,7 @@ def main():
         print(f"{Fore.RED}Download directory not found: {download_dir}")
         return
     
-    client = MangaDexClient()
+    client = MangaDxClient()
     
     try:
         if args.manga_id:
@@ -339,7 +339,7 @@ def main():
         else:
             # Interactive mode
             print(f"\n{Fore.CYAN}{'=' * 60}")
-            print(f"{Fore.CYAN}  MangaDex Volume Structure Updater")
+            print(f"{Fore.CYAN}  MangaDx Volume Structure Updater")
             print(f"{Fore.CYAN}{'=' * 60}\n")
             print(f"{Fore.WHITE}1. Update specific manga by ID")
             print(f"{Fore.WHITE}2. Scan all manga folders")

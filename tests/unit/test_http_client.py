@@ -6,8 +6,8 @@ import unittest
 from unittest.mock import Mock, patch, MagicMock
 import requests
 
-from src.mangadex.http_client import HTTPClient
-from src.mangadex.exceptions import (
+from src.mangadx.http_client import HTTPClient
+from src.mangadx.exceptions import (
     ValidationException,
     AuthenticationException,
     NotFoundException,
@@ -26,7 +26,7 @@ class TestHTTPClient(unittest.TestCase):
         """Clean up after tests."""
         self.client.close()
 
-    @patch("src.mangadex.http_client.requests.Session.request")
+    @patch("src.mangadx.http_client.requests.Session.request")
     def test_successful_get_request(self, mock_request):
         """Test successful GET request."""
         mock_response = Mock()
@@ -39,7 +39,7 @@ class TestHTTPClient(unittest.TestCase):
         self.assertEqual(result["result"], "ok")
         mock_request.assert_called_once()
 
-    @patch("src.mangadex.http_client.requests.Session.request")
+    @patch("src.mangadx.http_client.requests.Session.request")
     def test_404_error(self, mock_request):
         """Test 404 Not Found error."""
         mock_response = Mock()
@@ -51,7 +51,7 @@ class TestHTTPClient(unittest.TestCase):
         with self.assertRaises(NotFoundException):
             self.client.get("/test")
 
-    @patch("src.mangadex.http_client.requests.Session.request")
+    @patch("src.mangadx.http_client.requests.Session.request")
     def test_400_validation_error(self, mock_request):
         """Test 400 Bad Request error."""
         mock_response = Mock()
@@ -63,7 +63,7 @@ class TestHTTPClient(unittest.TestCase):
         with self.assertRaises(ValidationException):
             self.client.get("/test")
 
-    @patch("src.mangadex.http_client.requests.Session.request")
+    @patch("src.mangadx.http_client.requests.Session.request")
     def test_401_authentication_error(self, mock_request):
         """Test 401 Unauthorized error."""
         mock_response = Mock()
@@ -75,7 +75,7 @@ class TestHTTPClient(unittest.TestCase):
         with self.assertRaises(AuthenticationException):
             self.client.get("/test")
 
-    @patch("src.mangadex.http_client.requests.Session.request")
+    @patch("src.mangadx.http_client.requests.Session.request")
     def test_429_rate_limit_error(self, mock_request):
         """Test 429 Rate Limit error."""
         mock_response = Mock()

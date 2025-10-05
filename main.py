@@ -1,5 +1,5 @@
 """
-Main entry point for MangaDex Manga Downloader.
+Main entry point for MangaDx Manga Downloader.
 
 This script provides the main interface for the application.
 """

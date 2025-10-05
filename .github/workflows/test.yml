@@ -42,15 +42,15 @@ jobs:
     
     - name: Test API connectivity (quick check)
       run: |
-        python -c "from src.mangadex import MangaDexClient; client = MangaDexClient(); assert client.ping(), 'API ping failed'; client.close(); print('[OK] API connectivity')"
+        python -c "from src.mangadx import MangaDxClient; client = MangaDxClient(); assert client.ping(), 'API ping failed'; client.close(); print('[OK] API connectivity')"
     
     - name: Test search functionality (limited)
       run: |
-        python -c "from src.mangadex import MangaDexClient; client = MangaDexClient(); results = client.manga.search(title='One Piece', limit=1); assert len(results) > 0, 'Search failed'; print('[OK] Search - Found:', results[0].title.get('en', 'N/A')); client.close()"
+        python -c "from src.mangadx import MangaDxClient; client = MangaDxClient(); results = client.manga.search(title='One Piece', limit=1); assert len(results) > 0, 'Search failed'; print('[OK] Search - Found:', results[0].title.get('en', 'N/A')); client.close()"
     
     - name: Test download manager initialization
       run: |
-        python -c "from src.mangadex import MangaDexClient; from src.mangadex.downloader import DownloadManager; from pathlib import Path; client = MangaDexClient(); dm = DownloadManager(client, download_dir=Path('./test_downloads')); print('[OK] Download manager initialized'); client.close()"
+        python -c "from src.mangadx import MangaDxClient; from src.mangadx.downloader import DownloadManager; from pathlib import Path; client = MangaDxClient(); dm = DownloadManager(client, download_dir=Path('./test_downloads')); print('[OK] Download manager initialized'); client.close()"
     
     - name: Lint check (Python 3.11+ only)
       if: matrix.python-version >= '3.11'
@@ -90,13 +90,13 @@ jobs:
     - name: Quick download test (structure only)
       run: |
         python -c "
-        from src.mangadex import MangaDexClient
-        from src.mangadex.downloader import DownloadManager
+        from src.mangadx import MangaDxClient
+        from src.mangadx.downloader import DownloadManager
         from pathlib import Path
         import shutil
         
         # Test with a known manga (One Piece)
-        client = MangaDexClient()
+        client = MangaDxClient()
         dm = DownloadManager(client, download_dir=Path('./test_dl'))
         
         # Search for One Piece
@@ -173,4 +173,4 @@ jobs:
     
     - name: Verify all imports work
       run: |
-        python -c "from src.mangadex import MangaDexClient; from src.mangadex.downloader import DownloadManager; from src.mangadex.models import Manga, Chapter; from src.utils.formatters import format_manga_info; from config import Settings; print('[OK] All imports successful')"
+        python -c "from src.mangadx import MangaDxClient; from src.mangadx.downloader import DownloadManager; from src.mangadx.models import Manga, Chapter; from src.utils.formatters import format_manga_info; from config import Settings; print('[OK] All imports successful')"

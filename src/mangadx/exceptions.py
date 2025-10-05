@@ -1,5 +1,5 @@
 """
-Custom exceptions for MangaDex API client.
+Custom exceptions for MangaDx API client.
 
 This module defines all custom exceptions used throughout the library.
 """
@@ -7,12 +7,12 @@ This module defines all custom exceptions used throughout the library.
 from typing import Any, Dict, Optional
 
 
-class MangaDexException(Exception):
-    """Base exception for all MangaDex API errors."""
+class MangaDxException(Exception):
+    """Base exception for all MangaDx API errors."""
 
     def __init__(self, message: str, status_code: Optional[int] = None, response_data: Optional[Dict[str, Any]] = None):
         """
-        Initialize MangaDex exception.
+        Initialize MangaDx exception.
 
         Args:
             message: Error message
@@ -31,27 +31,27 @@ class MangaDexException(Exception):
         return self.message
 
 
-class APIException(MangaDexException):
+class APIException(MangaDxException):
     """Exception raised for general API errors."""
     pass
 
 
-class AuthenticationException(MangaDexException):
+class AuthenticationException(MangaDxException):
     """Exception raised for authentication failures."""
     pass
 
 
-class AuthorizationException(MangaDexException):
+class AuthorizationException(MangaDxException):
     """Exception raised for authorization failures (403 Forbidden)."""
     pass
 
 
-class NotFoundException(MangaDexException):
+class NotFoundException(MangaDxException):
     """Exception raised when a resource is not found (404)."""
     pass
 
 
-class RateLimitException(MangaDexException):
+class RateLimitException(MangaDxException):
     """Exception raised when rate limit is exceeded."""
 
     def __init__(self, message: str, retry_after: Optional[int] = None, **kwargs):
@@ -67,26 +67,26 @@ class RateLimitException(MangaDexException):
         self.retry_after = retry_after
 
 
-class ValidationException(MangaDexException):
+class ValidationException(MangaDxException):
     """Exception raised for validation errors (400 Bad Request)."""
     pass
 
 
-class ServerException(MangaDexException):
+class ServerException(MangaDxException):
     """Exception raised for server errors (5xx)."""
     pass
 
 
-class NetworkException(MangaDexException):
+class NetworkException(MangaDxException):
     """Exception raised for network-related errors."""
     pass
 
 
-class TimeoutException(MangaDexException):
+class TimeoutException(MangaDxException):
     """Exception raised when a request times out."""
     pass
 
 
-class DownloadException(MangaDexException):
+class DownloadException(MangaDxException):
     """Exception raised during download operations."""
     pass

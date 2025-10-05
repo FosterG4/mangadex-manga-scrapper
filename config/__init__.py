@@ -1,4 +1,4 @@
-"""Configuration module for MangaDex API client."""
+"""Configuration module for MangaDx API client."""
 
 from .settings import Settings
 

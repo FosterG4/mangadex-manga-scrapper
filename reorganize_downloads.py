@@ -12,11 +12,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from src.mangadex import MangaDexClient
+from src.mangadx import MangaDxClient
 from config import Settings
 
 
-def get_manga_title(client: MangaDexClient, manga_id: str) -> str:
+def get_manga_title(client: MangaDxClient, manga_id: str) -> str:
     """Get proper manga title from API."""
     try:
         manga = client.manga.get(manga_id)
@@ -75,7 +75,7 @@ def reorganize_vol_none(download_dir: Path):
                 print(f"  ⚠ Vol.none folder not empty, skipping removal\n")
 
 
-def rename_language_code_folders(download_dir: Path, client: MangaDexClient):
+def rename_language_code_folders(download_dir: Path, client: MangaDxClient):
     """Rename folders that are just language codes to proper titles."""
     print("\n=== Checking for language code folders ===\n")
     
@@ -127,7 +127,7 @@ def rename_language_code_folders(download_dir: Path, client: MangaDexClient):
 def main():
     """Main reorganization function."""
     print("=" * 60)
-    print("  MangaDex Download Reorganizer")
+    print("  MangaDx Download Reorganizer")
     print("=" * 60)
     
     download_dir = Settings.DOWNLOAD_DIR
@@ -140,7 +140,7 @@ def main():
     print(f"Found {len(list(download_dir.iterdir()))} items\n")
     
     # Initialize client
-    client = MangaDexClient()
+    client = MangaDxClient()
     
     try:
         # Step 1: Fix Vol.none folders

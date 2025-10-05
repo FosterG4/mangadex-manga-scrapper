@@ -1,4 +1,4 @@
-"""API modules for different MangaDex resources."""
+"""API modules for different MangaDx resources."""
 
 from .at_home import AtHomeAPI
 from .author import AuthorAPI

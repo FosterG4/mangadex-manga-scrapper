@@ -1,6 +1,6 @@
 # API Reference
 
-This document provides detailed information about the MangaDex API client library.
+This document provides detailed information about the MangaDx API client library.
 
 ## Table of Contents
 
@@ -18,19 +18,19 @@ This document provides detailed information about the MangaDex API client librar
 ## Client Initialization
 
 ```python
-from src.mangadex import MangaDexClient
+from src.mangadx import MangaDxClient
 
 # Basic initialization
-client = MangaDexClient()
+client = MangaDxClient()
 
 # With custom base URL
 client = MangaDexClient(base_url="https://api.mangadex.org")
 
-# With authentication token
-client = MangaDexClient(access_token="your_token_here")
+# With authentication
+client = MangaDxClient(access_token="your_token_here")
 
-# Using context manager
-with MangaDexClient() as client:
+# Using context manager (recommended)
+with MangaDxClient() as client:
     # Your code here
     pass
 ```
@@ -322,7 +322,7 @@ title["en"]               # Bracket notation
 
 ## Exceptions
 
-All exceptions inherit from `MangaDexException`:
+All exceptions inherit from `MangaDxException`:
 
 - `APIException` - General API errors
 - `AuthenticationException` - 401 Unauthorized
@@ -338,8 +338,8 @@ All exceptions inherit from `MangaDexException`:
 ### Error Handling
 
 ```python
-from src.mangadex.exceptions import (
-    MangaDexException,
+from src.mangadx.exceptions import (
+    MangaDxException,
     NotFoundException,
     RateLimitException
 )
@@ -350,7 +350,7 @@ except NotFoundException as e:
     print(f"Manga not found: {e}")
 except RateLimitException as e:
     print(f"Rate limited. Retry after {e.retry_after} seconds")
-except MangaDexException as e:
+except MangaDxException as e:
     print(f"API error [{e.status_code}]: {e.message}")
 ```
 
@@ -360,8 +360,8 @@ All configuration is managed through environment variables in `.env`:
 
 ```bash
 # API URLs
-MANGADEX_API_URL=https://api.mangadex.org
-MANGADEX_UPLOADS_URL=https://uploads.mangadex.org
+MANGADX_API_URL=https://api.mangadex.org
+MANGADX_UPLOADS_URL=https://uploads.mangadex.org
 
 # Download settings
 DOWNLOAD_DIR=./downloads

@@ -1,5 +1,5 @@
 """
-HTTP client for MangaDex API.
+HTTP client for MangaDx API.
 
 This module provides a robust HTTP client with retry logic, rate limiting,
 and error handling.
@@ -114,7 +114,7 @@ class HTTPClient:
             Parsed JSON response
 
         Raises:
-            Various MangaDex exceptions based on status code
+            Various MangaDx exceptions based on status code
         """
         try:
             data = response.json() if response.content else {}
@@ -180,7 +180,7 @@ class HTTPClient:
             Parsed JSON response
 
         Raises:
-            Various MangaDex exceptions on error
+            Various MangaDx exceptions on error
         """
         if not skip_rate_limit:
             self._apply_rate_limit()

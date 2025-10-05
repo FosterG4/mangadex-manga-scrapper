@@ -1,5 +1,5 @@
 """
-Command-line interface for MangaDex downloader.
+Command-line interface for MangaDx downloader.
 
 This module provides an interactive CLI for searching and downloading manga.
 """
@@ -9,9 +9,9 @@ from typing import Optional
 from colorama import Fore, Style, init
 
 from config import Settings
-from src.mangadex import MangaDexClient
-from src.mangadex.downloader import DownloadManager
-from src.mangadex.exceptions import MangaDexException
+from src.mangadx import MangaDxClient
+from src.mangadx.downloader import DownloadManager
+from src.mangadx.exceptions import MangaDxException
 from src.utils import format_manga_info, format_manga_list, setup_logger
 
 # Initialize colorama
@@ -25,13 +25,13 @@ class CLI:
 
     def __init__(self):
         """Initialize CLI."""
-        self.client = MangaDexClient()
+        self.client = MangaDxClient()
         self.downloader = DownloadManager(self.client)
 
     def print_header(self):
         """Print application header."""
         print(f"\n{Fore.CYAN}{'=' * 60}")
-        print(f"{Fore.CYAN}  MangaDex Manga Downloader v1.0")
+        print(f"{Fore.CYAN}  MangaDx Manga Downloader v1.0")
         print(f"{Fore.CYAN}{'=' * 60}\n")
 
     def print_success(self, message: str):
@@ -106,7 +106,7 @@ class CLI:
                 self.print_error("Invalid input. Please enter a number")
                 return None
 
-        except MangaDexException as e:
+        except MangaDxException as e:
             self.print_error(f"API error: {e}")
             return None
         except Exception as e:
@@ -234,7 +234,7 @@ class CLI:
 
             print(f"\n{Fore.CYAN}Files saved to: {self.downloader.download_dir}\n")
 
-        except MangaDexException as e:
+        except MangaDxException as e:
             self.print_error(f"Download failed: {e}")
             logger.exception("Download error")
         except Exception as e:
@@ -249,10 +249,10 @@ class CLI:
             # Check API connectivity
             self.print_info("Checking API connectivity...")
             if not self.client.ping():
-                self.print_error("Cannot connect to MangaDex API")
+                self.print_error("Cannot connect to MangaDx API")
                 return
 
-            self.print_success("Connected to MangaDex API")
+            self.print_success("Connected to MangaDx API")
 
             while True:
                 print(f"\n{Fore.YELLOW}{'─' * 60}")

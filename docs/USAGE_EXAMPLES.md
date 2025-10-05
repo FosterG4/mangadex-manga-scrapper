@@ -18,11 +18,11 @@ This document provides practical examples for common use cases.
 ### Simple Download Script
 
 ```python
-from src.mangadex import MangaDexClient
-from src.mangadex.downloader import DownloadManager
+from src.mangadx import MangaDxClient
+from src.mangadx.downloader import DownloadManager
 
 # Initialize
-client = MangaDexClient()
+client = MangaDxClient()
 downloader = DownloadManager(client)
 
 # Search and download
@@ -341,8 +341,8 @@ for language in ["en", "es", "fr"]:
 ### Basic Error Handling
 
 ```python
-from src.mangadex.exceptions import (
-    MangaDexException,
+from src.mangadx.exceptions import (
+    MangaDxException,
     NotFoundException,
     RateLimitException
 )
@@ -351,7 +351,7 @@ try:
     manga = client.manga.get("invalid-id")
 except NotFoundException:
     print("Manga not found")
-except MangaDexException as e:
+except MangaDxException as e:
     print(f"API error: {e.message}")
 ```
 
@@ -392,8 +392,8 @@ except DownloadException as e:
 ```python
 """Download multiple manga from a list."""
 
-from src.mangadex import MangaDexClient
-from src.mangadex.downloader import DownloadManager
+from src.mangadx import MangaDxClient
+from src.mangadx.downloader import DownloadManager
 
 manga_ids = [
     "manga-uuid-1",
@@ -401,7 +401,7 @@ manga_ids = [
     "manga-uuid-3",
 ]
 
-client = MangaDexClient()
+client = MangaDxClient()
 downloader = DownloadManager(client)
 
 for manga_id in manga_ids:
@@ -423,9 +423,9 @@ client.close()
 ```python
 """Find manga matching specific criteria."""
 
-from src.mangadex import MangaDexClient
+from src.mangadx import MangaDxClient
 
-client = MangaDexClient()
+client = MangaDxClient()
 
 # Get action manga from 2020+
 results = client.manga.search(
@@ -453,9 +453,9 @@ client.close()
 """Check for new chapters of followed manga."""
 
 from datetime import datetime, timedelta
-from src.mangadex import MangaDexClient
+from src.mangadx import MangaDxClient
 
-client = MangaDexClient()
+client = MangaDxClient()
 
 # Check for chapters updated in last 24 hours
 yesterday = (datetime.utcnow() - timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%S")
@@ -488,9 +488,9 @@ client.close()
 """Export manga metadata to JSON."""
 
 import json
-from src.mangadex import MangaDexClient
+from src.mangadx import MangaDxClient
 
-client = MangaDexClient()
+client = MangaDxClient()
 
 # Search for manga
 results = client.manga.search(

@@ -1,5 +1,5 @@
 """
-Main MangaDex API client.
+Main MangaDx API client.
 
 This module provides the main client interface for all API operations.
 """
@@ -22,8 +22,8 @@ from .http_client import HTTPClient
 logger = logging.getLogger(__name__)
 
 
-class MangaDexClient:
-    """Main client for MangaDex API operations."""
+class MangaDxClient:
+    """Main client for MangaDx API operations."""
 
     def __init__(
         self,
@@ -31,7 +31,7 @@ class MangaDexClient:
         access_token: Optional[str] = None,
     ):
         """
-        Initialize MangaDex client.
+        Initialize MangaDx client.
 
         Args:
             base_url: Base URL for API (defaults to Settings.BASE_URL)
@@ -48,7 +48,7 @@ class MangaDexClient:
         self.scanlation_group = ScanlationGroupAPI(self.http_client)
         self.at_home = AtHomeAPI(self.http_client)
 
-        logger.info(f"MangaDex client initialized with base URL: {self.base_url}")
+        logger.info(f"MangaDx client initialized with base URL: {self.base_url}")
 
     def ping(self) -> bool:
         """

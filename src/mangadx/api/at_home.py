@@ -1,7 +1,7 @@
 """
 AtHome API module.
 
-This module provides methods for getting chapter image URLs from MangaDex@Home.
+This module provides methods for getting chapter image URLs from MangaDx@Home.
 """
 
 from typing import Any, Dict, List
@@ -10,7 +10,7 @@ from ..http_client import HTTPClient
 
 
 class AtHomeAPI:
-    """API client for MangaDex@Home operations."""
+    """API client for MangaDx@Home operations."""
 
     def __init__(self, http_client: HTTPClient):
         """
@@ -23,8 +23,8 @@ class AtHomeAPI:
 
     def get_server(self, chapter_id: str, force_port_443: bool = False) -> Dict[str, Any]:
         """
-        Get MangaDex@Home server URL for chapter.
-
+        Get MangaDx@Home server URL for chapter.
+        
         Args:
             chapter_id: Chapter UUID
             force_port_443: Force HTTPS port 443

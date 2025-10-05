@@ -37,12 +37,12 @@ jobs:
     
     - name: API ping test
       run: |
-        python -c "from src.mangadex import MangaDexClient; client = MangaDexClient(); result = client.ping(); client.close(); assert result, 'API ping failed'; print('[OK] API is reachable')"
+        python -c "from src.mangadx import MangaDxClient; client = MangaDxClient(); result = client.ping(); client.close(); assert result, 'API ping failed'; print('[OK] API is reachable')"
       timeout-minutes: 1
     
     - name: Import validation
       run: |
-        python -c "from src.mangadex import MangaDexClient; from src.mangadex.downloader import DownloadManager; from config import Settings; print('[OK] All critical imports work')"
+        python -c "from src.mangadx import MangaDxClient; from src.mangadx.downloader import DownloadManager; from config import Settings; print('[OK] All critical imports work')"
     
     - name: Configuration validation
       run: |
