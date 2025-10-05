@@ -11,11 +11,12 @@ from typing import List, Optional
 
 from colorama import Fore, Style, init
 
+from config import Settings
+
 from ..client import MangaDxClient
 from ..downloader import DownloadManager
 from ..exceptions import MangaDxException
 from ..utils import get_logger
-from config import Settings
 
 # Initialize colorama
 init(autoreset=True)

@@ -6,15 +6,16 @@ This module provides the main CLI entry point with interactive menu.
 
 import argparse
 import sys
-from typing import Dict, Optional, Any
+from typing import Any, Dict, Optional
 
 from colorama import Fore, Style, init
+
+from config import Settings
 
 from ..client import MangaDxClient
 from ..downloader import DownloadManager
 from ..exceptions import MangaDxException
 from ..utils import format_manga_info, format_manga_list, get_logger
-from config import Settings
 
 # Initialize colorama
 init(autoreset=True)

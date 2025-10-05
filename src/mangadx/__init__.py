@@ -9,20 +9,20 @@ __author__ = "MangaDx Scrapper Team"
 
 from .client import MangaDxClient
 from .exceptions import (
-    MangaDxException,
     APIException,
     AuthenticationException,
     AuthorizationException,
+    MangaDxException,
     NotFoundException,
     RateLimitException,
 )
 
 __all__ = [
-    "MangaDxClient",
-    "MangaDxException",
     "APIException",
     "AuthenticationException",
     "AuthorizationException",
+    "MangaDxClient",
+    "MangaDxException",
     "NotFoundException",
     "RateLimitException",
 ]

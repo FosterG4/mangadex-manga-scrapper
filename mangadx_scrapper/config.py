@@ -7,6 +7,7 @@ This module loads and manages all configuration from environment variables.
 import os
 from pathlib import Path
 from typing import Optional
+
 from dotenv import load_dotenv
 
 # Load environment variables

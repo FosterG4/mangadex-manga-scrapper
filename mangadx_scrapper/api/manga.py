@@ -26,7 +26,7 @@ Authentication:
 
 from typing import Any, Dict, List, Optional, Union
 
-from ..exceptions import ValidationException, NotFoundException
+from ..exceptions import NotFoundException, ValidationException
 from ..http_client import HTTPClient
 from ..models import Manga
 

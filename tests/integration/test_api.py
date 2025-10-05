@@ -5,8 +5,9 @@ These tests make real API calls to MangaDx.
 Run with caution to avoid rate limiting.
 """
 
-import unittest
 import os
+import unittest
+
 from src.mangadx import MangaDxClient
 from src.mangadx.exceptions import MangaDxException
 

@@ -3,16 +3,17 @@ Unit tests for HTTP client.
 """
 
 import unittest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import MagicMock, Mock, patch
+
 import requests
 
-from src.mangadx.http_client import HTTPClient
 from src.mangadx.exceptions import (
-    ValidationException,
     AuthenticationException,
     NotFoundException,
     RateLimitException,
+    ValidationException,
 )
+from src.mangadx.http_client import HTTPClient
 
 
 class TestHTTPClient(unittest.TestCase):

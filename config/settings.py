@@ -6,8 +6,9 @@ Provides comprehensive validation and documentation for all settings."""
 import os
 import re
 from pathlib import Path
-from typing import List, Optional
+from typing import Optional
 from urllib.parse import urlparse
+
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -128,7 +129,7 @@ class Settings:
         
         # Validate language code format (ISO 639-1)
         if not re.match(r'^[a-z]{2}$', cls.DEFAULT_LANGUAGE):
-            raise ValueError(f"DEFAULT_LANGUAGE must be a valid ISO 639-1 language code (e.g., 'en', 'ja')")
+            raise ValueError("DEFAULT_LANGUAGE must be a valid ISO 639-1 language code (e.g., 'en', 'ja')")
         
         # Create necessary directories
         try:

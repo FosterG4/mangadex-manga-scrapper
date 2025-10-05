@@ -10,11 +10,12 @@ from typing import List, Optional
 
 from colorama import Fore, Style, init
 
+from config import Settings
+
 from ..client import MangaDxClient
 from ..exceptions import MangaDxException
 from ..models import Manga
 from ..utils import format_manga_info, format_manga_list, get_logger
-from config import Settings
 
 # Initialize colorama
 init(autoreset=True)
@@ -114,6 +115,7 @@ def search_manga(
         
         if json_output:
             import json
+
             # Convert to JSON-serializable format
             results = []
             for manga in manga_list:

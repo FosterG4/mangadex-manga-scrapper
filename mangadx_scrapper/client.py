@@ -7,7 +7,6 @@ This module provides the main client interface for all API operations.
 import logging
 from typing import Optional
 
-from .config import Settings
 from .api import (
     AtHomeAPI,
     AuthorAPI,
@@ -16,6 +15,7 @@ from .api import (
     MangaAPI,
     ScanlationGroupAPI,
 )
+from .config import Settings
 from .http_client import HTTPClient
 
 logger = logging.getLogger(__name__)

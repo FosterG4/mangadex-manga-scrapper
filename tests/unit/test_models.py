@@ -3,7 +3,8 @@ Unit tests for data models.
 """
 
 import unittest
-from src.mangadx.models import Manga, Chapter, Author, LocalizedString
+
+from src.mangadx.models import Author, Chapter, LocalizedString, Manga
 
 
 class TestLocalizedString(unittest.TestCase):
